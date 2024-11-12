@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="409.0" prefWidth="627.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controlador.PanelCliente">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="150.0" minWidth="127.199951171875" prefWidth="127.199951171875" />
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="204.79998779296875" prefWidth="486.400048828125" />
+      <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="189.5999755859375" minHeight="0.0" prefHeight="0.0" vgrow="ALWAYS" />
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="127.4000244140625" prefHeight="373.6" vgrow="ALWAYS" />
+        <RowConstraints maxHeight="29.600000000000023" minHeight="9.199975585937466" prefHeight="29.600000000000023" vgrow="ALWAYS" />
+    </rowConstraints>
+    <children>
+      <TextArea fx:id="taMensajes" editable="false" prefHeight="366.0" prefWidth="483.0" stylesheets="@estilos.css" text="&#10;" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
+         <font>
+            <Font name="Verdana" size="14.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="31.0" right="2.0" top="2.0" />
+         </GridPane.margin>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </TextArea>
+        <TextField fx:id="tfMensaje" prefHeight="26.0" prefWidth="470.0" stylesheets="@estilos.css" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></TextField>
+        <Button fx:id="btnEnviar" alignment="CENTER" defaultButton="true" onAction="#enviarMensaje" prefHeight="26.0" prefWidth="98.0" stylesheets="@estilos.css" text="Enviar" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+         <font>
+            <Font name="Verdana" size="14.0" />
+         </font>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin></Button>
+    </children>
+</GridPane>
