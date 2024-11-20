@@ -1,0 +1,45 @@
+
+#gridPane {
+    -fx-background-color: #f0f0f0;
+}
+
+#taMensajes {
+    -fx-font-size: 14px;
+    -fx-font-family: 'Verdana';
+    -fx-background-color: white;
+}
+
+.combo-box .text-field {
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+.combo-box .list-cell {
+    -fx-alignment: center;
+}
+
+#btnEnviar {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+
+#vbox {
+    -fx-background-color: #a0a0a0;
+}
+
+
+#tfName {
+    -fx-font-size: 14px;
+}
+
+#btnConnect {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+#scroll-pane {
+    -fx-hbar-policy: NEVER;
+    -fx-vbar-policy: NEVER;
+}

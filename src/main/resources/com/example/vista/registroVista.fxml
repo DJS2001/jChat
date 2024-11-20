@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="260.0" prefWidth="328.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controlador.RegistroControlador">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="5.0" />
+   </padding>
+   <children>
+      <HBox prefHeight="31.0" prefWidth="232.0">
+         <children>
+            <Label text="Usuario">
+               <HBox.margin>
+                  <Insets right="5.5" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="tfRegUsuario">
+               <HBox.margin>
+                  <Insets left="38.0" top="2.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" top="40.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox prefHeight="31.0" prefWidth="232.0">
+         <children>
+            <Label text="Contraseña">
+               <HBox.margin>
+                  <Insets right="5.5" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="tfRegContrasenia">
+               <HBox.margin>
+                  <Insets left="20.0" top="2.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox prefHeight="54.0" prefWidth="268.0">
+         <children>
+            <Label prefHeight="40.0" prefWidth="58.0" text="Confirmar&#10;contraseña">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="tfConfirmContrasenia">
+               <HBox.margin>
+                  <Insets left="26.0" top="7.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" />
+         </VBox.margin>
+      </HBox>
+      <Button fx:id="btnRegistro" defaultButton="true" mnemonicParsing="false" onAction="#registrarUsuario" text="Registrarse">
+         <VBox.margin>
+            <Insets top="3.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+</VBox>
