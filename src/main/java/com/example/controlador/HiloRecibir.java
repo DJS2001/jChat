@@ -28,28 +28,24 @@ public class HiloRecibir {
 
 
     public void esperarMensaje() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String mensajeGrupal;
-
-                while (socket.isConnected()) {
-                    try {
-                        mensajeGrupal = br.readLine();
+        new Thread(() -> {
+            while (socket.isConnected()) {
+                try {
+                    String mensajeGrupal = br.readLine();
+                    if (mensajeGrupal != null) {
                         String finalMensajeGrupal = mensajeGrupal;
                         Platform.runLater(() -> {
                             taMensajes.appendText(finalMensajeGrupal + "\n");
                             taMensajes.positionCaret(taMensajes.getText().length());
                         });
-                    } catch (IOException ioe) {
-                        cierraStreams();
                     }
+                } catch (IOException ioe) {
+                    cierraStreams();
+                    break;
                 }
             }
         }).start();
     }
-
-
 
     private void cierraStreams() {
         try {

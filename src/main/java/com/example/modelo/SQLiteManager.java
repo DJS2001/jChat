@@ -88,21 +88,6 @@ public class SQLiteManager {
         }
     }
 
-
-    public void insertarChat(String sender, String message) {
-        try (Connection connection = DriverManager.getConnection(DB_URL)) {
-            String sql = "INSERT INTO mensajes (usuario, mensaje, fecha) VALUES (?, ?, datetime('now'))";
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, sender);
-                statement.setString(2, message);
-                statement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al insertar mensaje " + message + " " + e.getMessage());
-        }
-    }
-
-
     public void crearUsuario(String usuario, String contrasenia) {
         try (Connection connection = DriverManager.getConnection(DB_URL)){
             String sql = "INSERT INTO usuarios (usuario, contrasenia) VALUES (?,?)";
@@ -117,7 +102,7 @@ public class SQLiteManager {
 
     }
 
-    public List<String> obtenerMensajes(String idChat) {
+    /*public List<String> obtenerMensajes(String idChat) {
         List<String> mensajes = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
             String sql = "SELECT mensaje FROM mensajes WHERE idChat = ? ORDER BY fecha";
@@ -137,6 +122,23 @@ public class SQLiteManager {
         }
 
         return mensajes;  // Retornar la lista de mensajes
+    }*/
+
+    public List<String> obtenerMensajes() {
+        List<String> mensajes = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT mensaje FROM mensajes ORDER BY fecha")) {
+
+            while (resultSet.next()) {
+                String mensaje = resultSet.getString("mensaje");
+
+                mensajes.add(mensaje);
+            }
+        } catch (SQLException e) {
+            System.err.println("No se pudieron obtener los mensasjes: " + e.getMessage());
+        }
+        return mensajes;
     }
 
 

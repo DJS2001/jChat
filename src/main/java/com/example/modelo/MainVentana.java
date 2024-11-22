@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainVentana extends Application {
     private static final int puerto = 51005;
-    private static final AtomicBoolean servidorIniciado = new AtomicBoolean(false);
     private Servidor servidor;
 
     @Override
@@ -36,23 +35,6 @@ public class MainVentana extends Application {
             stage.setResizable(false);
             stage.show();
 
-            synchronized (MainVentana.class) {
-                if (!servidorIniciado.get()) {
-                    servidorIniciado.set(true);
-
-                    new Thread(() -> {
-                        try (ServerSocket serverSocket = new ServerSocket(puerto)) {
-                            servidor = new Servidor(serverSocket);
-                            servidor.iniciaServidor();
-                        } catch (BindException be) {
-                            //System.err.println("Direccion ya en uso");
-                        } catch (IOException ioe) {
-                            ExceptionHandler.manejarError("Error al iniciar el servidor", ioe);
-                        }
-                    }).start();
-                }
-            }
-
             MainControlador controller = fxmlLoader.getController();
             controller.setPrimaryStage(stage);
         } catch (IOException ioe) {
@@ -60,21 +42,6 @@ public class MainVentana extends Application {
         }
 
     }
-
-    @Override
-    public void stop() {
-        if (servidorIniciado.get()) {
-            try {
-                if (servidor != null) {
-                    servidor.cerrarServidor();
-                }
-            } finally {
-                servidorIniciado.set(false);
-            }
-        }
-    }
-
-
 
     public static void main(String[] args) {
         launch();

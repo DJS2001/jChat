@@ -2,6 +2,7 @@ package com.example.controlador;
 
 import com.example.modelo.SQLiteManager;
 import com.example.modelo.UsuarioConectado;
+import javafx.scene.SubScene;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -30,9 +31,9 @@ public class Servidor {
 
     public void iniciaServidor() {
         try {
+
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
-
                 this.br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 System.out.println("Nuevo cliente conectado");
 
@@ -44,14 +45,14 @@ public class Servidor {
                 Thread hilo = new Thread(comunicadorCliente);
                 hilo.start();
 
-                //recibirPrimerMensaje(socket);
-
                 if (manager.chGeneralExiste()) {
                     enviarChatPrevio(socket);
                 } else {
                     manager.agregarChat();
                 }
 
+                recibirMensaje(socket);
+                enviarChatPrevio(socket);
             }
         } catch (SocketException se) {
             System.out.println("Cerrando el socket del ultimo cliente");
@@ -101,38 +102,12 @@ public class Servidor {
     }
 
 
-    public void recibirPrimerMensaje(Socket socket) {
-        String mensaje;
-
-        try {
-            mensaje = br.readLine();
-
-            UsuarioConectado usuarioConectado = new UsuarioConectado(sacarUsuario(mensaje), socket);
-            usuarioConectado.addUsuario();
-            /*listaSocket.put(sacarUsuario(mensaje),socket);
-            System.out.println("Tamaño lista en el servidor: " + listaSocket.size());
-
-            ConcurrentHashMap<String, Socket> lista = Servidor.getListaSocket();
-            String nombreUsuario = "";
-            Socket socket2 = new Socket();
-
-            for (Map.Entry<String, Socket> element : lista.entrySet()) {
-                nombreUsuario = element.getKey();
-                socket2 = element.getValue();
-                System.out.println(nombreUsuario + " " + socket2);
-            }*/
-        } catch (IOException ioe) {
-            ExceptionHandler.manejarError("No se ha podido enviar el mensaje", ioe);
-        }
-
-    }
-
     private String sacarUsuario(String mensaje) {
         return mensaje.split(":")[0];
     }
 
     private synchronized void enviarChatPrevio(Socket socket) throws IOException {
-        List<String> mensajes = manager.obtenerMensajes("1");
+        List<String> mensajes = manager.obtenerMensajes();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
         for (String mensaje : mensajes) {
@@ -140,6 +115,17 @@ public class Servidor {
             bw.newLine();
             bw.flush();
         }
+    }
+
+    private void recibirMensaje(Socket socket) {
+        String mensaje;
+        try {
+            mensaje = br.readLine();
+            listaSocket.put(sacarUsuario(mensaje),socket);
+        } catch (IOException ioe) {
+            ExceptionHandler.manejarError("No se ha podido enviar el mensaje", ioe);
+        }
+
     }
 
     public static ConcurrentHashMap<String, Socket> getListaSocket() {

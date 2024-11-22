@@ -1,6 +1,7 @@
 package com.example.controlador;
 
 import com.example.modelo.SQLiteManager;
+import com.example.modelo.UsuarioConectado;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -32,6 +33,7 @@ public class MainControlador {
     private int puerto = 51005;
     private Stage primaryStage;
     private SQLiteManager manager = new SQLiteManager();
+    private UsuarioConectado uc = new UsuarioConectado();
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -51,7 +53,6 @@ public class MainControlador {
                     Parent root = fxmlLoader.load();
                     PanelCliente controller = fxmlLoader.getController();
                     controller.inicializarHilos(nombre, socket);
-                    controller.aniadirCliente(nombre,socket);
 
                     Scene scene = new Scene(root);
                     scene.getStylesheets().add(getClass().getResource("/com/example/vista/estilos.css").toExternalForm());
@@ -70,8 +71,11 @@ public class MainControlador {
                         }
                     });
 
-                    //stage.setResizable(true);
                     stage.show();
+
+                    uc = new UsuarioConectado(nombre,socket);
+                    uc.addUsuario();
+                    controller.aniadirCliente(uc);
 
                     cerrarVentanaActual();
                 } catch (IOException ioe) {

@@ -23,25 +23,10 @@ public class PanelCliente {
 
     @FXML
     private void initialize() {
+        taMensajes.positionCaret(taMensajes.getText().length());
         ObservableList<UsuarioConectado> ol = UsuarioConectado.getListaUsuarios();
         cbNewChat.setItems(ol);
-
-        // Agregar un listener para asegurarte de que el ComboBox se actualice si la lista cambia.
-        ol.addListener((ListChangeListener<UsuarioConectado>) change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    System.out.println("Usuario agregado: " + change.getAddedSubList());
-                }
-            }
-        });
-
-        System.out.println("Usuarios conectados iniciales:" + ol.size());
-        for (UsuarioConectado u : ol) {
-            System.out.println("Nombre: " + u.getNombre());
-            System.out.println("Socket: " + u.getSocket());
-        }
     }
-
 
     @FXML
     private void enviarMensaje() {
@@ -49,7 +34,7 @@ public class PanelCliente {
         if (!texto.isBlank()) {
             hiloEnviar.mandarMensaje(texto);
             tfMensaje.clear();
-            taMensajes.positionCaret(texto.length());
+            taMensajes.positionCaret(taMensajes.getText().length());
         }
     }
 
@@ -60,12 +45,12 @@ public class PanelCliente {
         hiloEnviar.mensajeBienvenida();
     }
 
-    public void aniadirCliente(String nombre, Socket socket) {
-        UsuarioConectado usuarioConectado = new UsuarioConectado(nombre, socket);
-        usuarioConectado.addUsuario();
+    public void aniadirCliente(UsuarioConectado uc) {
+        //UsuarioConectado usuarioConectado = new UsuarioConectado(nombre, socket);
+        //uc.addUsuario();
 
-        System.out.println("*aniadirCliente* nombre: " + usuarioConectado.getNombre());
-        System.out.println("Lista actualizada en aniadirCliente:");
+        System.out.println("*aniadirCliente* nombre: " + uc.getNombre());
+        System.out.println("Lista actualizada en aniadirCliente:" + UsuarioConectado.getListaUsuarios().size());
 
         for (UsuarioConectado u : UsuarioConectado.getListaUsuarios()) {
             System.out.println("Nombre:" + u.getNombre());

@@ -8,7 +8,7 @@ import java.net.Socket;
 public class UsuarioConectado {
     private String nombre;
     private Socket socket;
-    private static ObservableList<UsuarioConectado> usuariosConectados = FXCollections.observableArrayList();
+    private final static ObservableList<UsuarioConectado> usuariosConectados = FXCollections.observableArrayList();
 
     public UsuarioConectado(String nombre, Socket socket) {
         this.nombre = nombre;
@@ -29,6 +29,11 @@ public class UsuarioConectado {
     }
 
     public static ObservableList<UsuarioConectado> getListaUsuarios() {return usuariosConectados;}
+
+    public void addUsuario(String nombre, Socket socket) {
+        UsuarioConectado uc = new UsuarioConectado(nombre, socket);
+        usuariosConectados.add(uc);
+    }
 
     public void addUsuario() {
         usuariosConectados.add(this);

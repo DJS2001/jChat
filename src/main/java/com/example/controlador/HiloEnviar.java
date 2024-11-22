@@ -22,8 +22,6 @@ public class HiloEnviar {
         }
     }
 
-
-
     public void mandarMensaje(String texto) {
         try {
             bw.write(usuario + ": " + texto);
@@ -38,6 +36,7 @@ public class HiloEnviar {
     public void mensajeBienvenida() {
         mandarMensaje("se ha unido a la sala.");
     }
+
     private void cierraStreams() {
         try {
             if (bw != null) bw.close();
