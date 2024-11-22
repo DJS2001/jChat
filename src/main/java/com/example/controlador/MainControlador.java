@@ -1,14 +1,14 @@
 package com.example.controlador;
 
 import com.example.modelo.SQLiteManager;
-import com.example.modelo.UsuarioConectado;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -27,13 +27,12 @@ public class MainControlador {
     @FXML
     private TextField tfName;
     @FXML
-    private PasswordField tfContrasenia;
+    private TextField tfContrasenia;
     @FXML
     private Label alert;
     private int puerto = 51005;
     private Stage primaryStage;
     private SQLiteManager manager = new SQLiteManager();
-    private UsuarioConectado uc = new UsuarioConectado();
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -71,11 +70,8 @@ public class MainControlador {
                         }
                     });
 
+                    //stage.setResizable(true);
                     stage.show();
-
-                    uc = new UsuarioConectado(nombre,socket);
-                    uc.addUsuario();
-                    controller.aniadirCliente(uc);
 
                     cerrarVentanaActual();
                 } catch (IOException ioe) {

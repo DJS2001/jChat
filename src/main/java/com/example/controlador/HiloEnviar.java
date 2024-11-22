@@ -6,7 +6,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 
-public class HiloEnviar {
+public class    HiloEnviar {
     private Socket socket;
     private String usuario;
     private BufferedWriter bw;
@@ -21,6 +21,8 @@ public class HiloEnviar {
             System.err.println("Error E/S :" + e.getMessage());
         }
     }
+
+
 
     public void mandarMensaje(String texto) {
         try {
