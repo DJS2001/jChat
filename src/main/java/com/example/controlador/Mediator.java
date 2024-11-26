@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Mediator {
-    public static void main (String args[]) {
+    public static void main(String args[]) {
         int puerto = 51005;
-        
-        try (ServerSocket serverSocket = new ServerSocket(puerto)){
+
+        try (ServerSocket serverSocket = new ServerSocket(puerto)) {
             //Iniciamos el servidor. Al iniciar el servidor se inicia un hilo de ComunicadorCliente
             Servidor servidor = new Servidor(serverSocket);
             servidor.iniciaServidor();

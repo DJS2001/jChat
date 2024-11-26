@@ -1,22 +1,29 @@
 package com.example.controlador;
 
 import com.example.modelo.SQLiteManager;
+import com.example.modelo.UsuarioConectado;
+import com.example.modelo.UsuarioConectadoSingleton;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
 public class Servidor {
 
     private ServerSocket serverSocket;
-    private ConcurrentHashMap<String,Socket> listaSocket = new ConcurrentHashMap<String,Socket>();
+    private ConcurrentHashMap<String, Socket> listaSocket = new ConcurrentHashMap<String, Socket>();
     private SQLiteManager manager = new SQLiteManager();
     private BufferedReader br;
     private int contadorClientes = 0;
+    private ObservableList<UsuarioConectado> usuariosConectados;
 
     public Servidor(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
+        this.usuariosConectados = UsuarioConectadoSingleton.getInstance().getUsuariosConectados();
         manager.crearTablaMensajes();
         manager.crearTablaUsuarios();
     }
@@ -33,7 +40,7 @@ public class Servidor {
                     contadorClientes++;
                 }
 
-                ComunicadorCliente comunicadorCliente = new ComunicadorCliente(socket, this);
+                ComunicadorCliente comunicadorCliente = new ComunicadorCliente(socket, this, usuariosConectados);
                 Thread hilo = new Thread(comunicadorCliente);
                 hilo.start();
 
@@ -46,9 +53,11 @@ public class Servidor {
             ExceptionHandler.manejarError("Ha ocurrido un problema al conectar al cliente ", ioe);
         }
     }
+
     public synchronized void enviarMensaje(String mensaje) {
         try {
             manager.insertarMensaje(sacarUsuario(mensaje), mensaje);
+
             for (Socket socket : listaSocket.values()) {
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 bw.write(mensaje);
@@ -86,17 +95,24 @@ public class Servidor {
         }
     }
 
-
     private void recibirPrimerMensaje(Socket socket) {
         String mensaje;
+
         try {
             mensaje = br.readLine();
-            listaSocket.put(sacarUsuario(mensaje),socket);
+            String usuario = sacarUsuario(mensaje);
+            listaSocket.put(usuario, socket);
+
+            UsuarioConectado usuarioConectado = new UsuarioConectado(usuario, socket);
+            UsuarioConectadoSingleton.getInstance().addUsuario(usuarioConectado);
+
+            System.out.println("Usuario agregado: " + usuario);
+
         } catch (IOException ioe) {
             ExceptionHandler.manejarError("No se ha podido enviar el mensaje", ioe);
         }
-
     }
+
 
     private String sacarUsuario(String mensaje) {
         return mensaje.split(":")[0];
@@ -113,9 +129,7 @@ public class Servidor {
         }
     }
 
-
+    public ObservableList<UsuarioConectado> getUsuariosConectados() {
+        return usuariosConectados;
+    }
 }
-
-
-
-

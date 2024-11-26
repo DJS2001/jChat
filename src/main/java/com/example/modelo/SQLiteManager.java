@@ -89,11 +89,11 @@ public class SQLiteManager {
     }
 
     public void crearUsuario(String usuario, String contrasenia) {
-        try (Connection connection = DriverManager.getConnection(DB_URL)){
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
             String sql = "INSERT INTO usuarios (usuario, contrasenia) VALUES (?,?)";
-            try (PreparedStatement statement = connection.prepareStatement(sql)){
-                statement.setString(1,usuario);
-                statement.setString(2,contrasenia);
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, usuario);
+                statement.setString(2, contrasenia);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -121,10 +121,10 @@ public class SQLiteManager {
             System.err.println("No se pudieron obtener los mensajes: " + e.getMessage());
         }
 
-        return mensajes;  // Retornar la lista de mensajes
+        return mensajes;
     }*/
 
-    public List<String> obtenerMensajes() {
+    public static List<String> obtenerMensajes() {
         List<String> mensajes = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DB_URL);
              Statement statement = connection.createStatement();
@@ -145,8 +145,8 @@ public class SQLiteManager {
     public List<String> obtenerUsuarios() {
         List<String> usuarios = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DB_URL);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT usuario FROM usuarios")){
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT usuario FROM usuarios")) {
 
             while (resultSet.next()) {
                 String usuario = resultSet.getString("usuario");
@@ -161,15 +161,15 @@ public class SQLiteManager {
 
 
     public boolean validaCuenta(String usuario, String contrasenia) {
-        try (Connection connection = DriverManager.getConnection(DB_URL)){
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
             String sql = "SELECT usuario, contrasenia FROM usuarios WHERE ? LIKE usuario AND ? LIKE contrasenia";
-            try (PreparedStatement statement = connection.prepareStatement(sql)){
-                statement.setString(1,usuario);
-                statement.setString(2,contrasenia);
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, usuario);
+                statement.setString(2, contrasenia);
 
                 ResultSet resultSet = statement.executeQuery();
 
-                String resulName =  resultSet.getString(1);
+                String resulName = resultSet.getString(1);
                 String resulPassW = resultSet.getString(2);
 
                 if (resulName != null && resulPassW != null) {

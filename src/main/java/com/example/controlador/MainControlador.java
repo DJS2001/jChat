@@ -7,18 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -44,7 +38,7 @@ public class MainControlador {
         String contrasenia = tfContrasenia.getText();
 
         if (!tfName.getText().isEmpty() && validacionNombre(tfName)) {
-            if (manager.validaCuenta(nombre,contrasenia)) {
+            if (manager.validaCuenta(nombre, contrasenia)) {
                 try {
                     String ipLocal = InetAddress.getLocalHost().getHostAddress();
                     Socket socket = new Socket(ipLocal, puerto);
@@ -75,7 +69,8 @@ public class MainControlador {
 
                     cerrarVentanaActual();
                 } catch (IOException ioe) {
-                    ExceptionHandler.manejarError("Error al iniciar sesión",ioe);
+                    ExceptionHandler.manejarError("Error al iniciar sesión", ioe);
+                    ioe.printStackTrace();
                 }
             } else {
                 alert.setVisible(true);
@@ -122,7 +117,6 @@ public class MainControlador {
             System.out.println("El primaryStage es nulo.");
         }
     }
-
 
 
     private boolean validacionNombre(TextField tfName) {

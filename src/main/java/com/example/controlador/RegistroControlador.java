@@ -26,8 +26,8 @@ public class RegistroControlador {
         String confirmContrasenia = tfConfirmContrasenia.getText();
 
         if (validarUsuario(usuario) && validaContrasenia(contrasenia) && validaContrasenia(confirmContrasenia)
-            && passWEquals(contrasenia,confirmContrasenia)) {
-            manager.crearUsuario(usuario,contrasenia);
+                && passWEquals(contrasenia, confirmContrasenia)) {
+            manager.crearUsuario(usuario, contrasenia);
 
             Stage stage = (Stage) btnRegistro.getScene().getWindow();
             stage.close();
@@ -87,12 +87,16 @@ public class RegistroControlador {
     }
 
     public boolean validaEspacios(String texto) {
-        if (texto.contains(" ")) {return true;}
+        if (texto.contains(" ")) {
+            return true;
+        }
         return false;
     }
 
     public boolean validaSpcCaracteres(String texto) {
-        if (texto.contains("[a-zA-Z@._]+")) {return true;}
+        if (texto.contains("[a-zA-Z@._]+")) {
+            return true;
+        }
         return false;
     }
 

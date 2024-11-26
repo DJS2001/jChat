@@ -1,6 +1,8 @@
 package com.example.controlador;
 
 import com.example.modelo.SQLiteManager;
+import com.example.modelo.UsuarioConectado;
+import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.net.Socket;
@@ -11,8 +13,9 @@ public class ComunicadorCliente extends Thread {
     private BufferedWriter bw;
     private SQLiteManager sqliteManager;
     private Servidor servidor;
+    private ObservableList<UsuarioConectado> usuariosConectados;
 
-    public ComunicadorCliente(Socket socket, Servidor servidor) {
+    public ComunicadorCliente(Socket socket, Servidor servidor, ObservableList<UsuarioConectado> usuariosConectados) {
         try {
             this.socket = socket;
             this.br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -28,7 +31,12 @@ public class ComunicadorCliente extends Thread {
     @Override
     public void run() {
         try {
+            //Estas lineas comentadas dan error:
+            //UsuarioConectado uc = new UsuarioConectado("",socket);
+            //usuariosConectados.add(uc);
+
             String mensaje = null;
+
             while (socket.isConnected()) {
                 mensaje = br.readLine();
                 this.servidor.enviarMensaje(mensaje);

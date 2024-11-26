@@ -49,7 +49,6 @@ public class HiloRecibir {
         }).start();
     }
 
-
     private void cierraStreams() {
         try {
             if (br != null) br.close();
